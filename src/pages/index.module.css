@@ -1,0 +1,36 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  /* 新增背景设置 */
+  background: url('../../static/img/header-bg.jpg') center/cover no-repeat;
+  /* 移除默认颜色 */
+  --ifm-hero-background-color: transparent; 
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+    /* 移动端背景优化 */
+    background-position: 60% center;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 新增文字可读性保障 */
+.hero__title,
+.hero__subtitle {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #fff !important;
+}
