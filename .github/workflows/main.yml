@@ -199,7 +199,7 @@ jobs:
       FCL_FILE_PREFIX: ${{ needs.update.outputs.fcl_file_prefix }}
     steps:
       - name: Echo version information
-        run: echo "部署FCL版本: ${{ env.FCL_VERSION }}"
+        run: echo "部署FCL最新版"
       
       - uses: actions/checkout@main
 
