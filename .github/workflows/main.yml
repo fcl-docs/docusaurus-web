@@ -321,9 +321,9 @@ jobs:
             X86_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-x86.apk"
             download_file "$X86_URL" "FCL-v${FCL_VERSION}-x86.apk"
             
-            echo "正在下载arm64版本..."
-            ARM64_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-arm64.apk"
-            download_file "$ARM64_URL" "FCL-v${FCL_VERSION}-arm64.apk"
+            echo "正在下载arm64-v8a版本..."
+            ARM64_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-arm64-v8a.apk"
+            download_file "$ARM64_URL" "FCL-v${FCL_VERSION}-arm64-v8a.apk"
             
             echo "正在下载all版本..."
             ALL_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-all.apk"
@@ -336,8 +336,8 @@ jobs:
             echo "已下载的文件:"
             ls -la
             
-            # 检查至少有一个文件下载成功
-            if [ ! -f "FCL-v${FCL_VERSION}-x86.apk" ] && [ ! -f "FCL-v${FCL_VERSION}-arm64.apk" ] && [ ! -f "FCL-v${FCL_VERSION}-all.apk" ]; then
+            # 检查至少有一个文件下载成功（更新文件名检查）
+            if [ ! -f "FCL-v${FCL_VERSION}-x86.apk" ] && [ ! -f "FCL-v${FCL_VERSION}-arm64-v8a.apk" ] && [ ! -f "FCL-v${FCL_VERSION}-all.apk" ]; then
               echo "错误：所有版本下载均失败，无法继续部署"
               exit 1
             fi
