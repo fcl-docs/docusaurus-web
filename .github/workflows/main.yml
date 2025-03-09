@@ -221,7 +221,7 @@ jobs:
           user: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.KEY }}
           pass: ${{ secrets.HOST_PASSWORD }}
-          args: -o StrictHostKeyChecking=no
+          args: -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10
           command: |
             # 在服务器上创建必要的目录
             mkdir -p /tmp/fcl-deploy /tmp/fcl-updates
@@ -249,7 +249,8 @@ jobs:
           user: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.KEY }}
           pass: ${{ secrets.HOST_PASSWORD }}
-          args: -o StrictHostKeyChecking=no
+          args: -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10 -o ConnectTimeout=60
+          timeout: 300
           command: |
             # 部署Docusaurus构建文件
             cd /tmp/fcl-deploy
@@ -286,7 +287,7 @@ jobs:
             # 构建基础下载URL
             BASE_URL="https://github.com/FCL-Team/FoldCraftLauncher/releases/download"
             
-            # 下载函数，包含重试逻辑
+            # 下载函数，包含重试逻辑和进度显示
             download_file() {
               local url=$1
               local output=$2
@@ -298,10 +299,14 @@ jobs:
               
               while [ $retry -lt $max_retries ]; do
                 echo "尝试下载 $url (尝试 $((retry+1))/$max_retries)"
-                wget -q "$url" -O "$output" 
+                # 使用 -q 参数会隐藏进度条，而这可能导致SSH连接超时
+                # 使用进度条并设置超时可以保持连接活跃
+                # 添加下载速度限制为2MB/s
+                rm -f "$output" 2>/dev/null
+                wget --timeout=60 --tries=3 --progress=dot --limit-rate=2m "$url" -O "$output" 2>&1 || echo "下载可能不完整"
                 
                 if [ -f "$output" ] && [ -s "$output" ]; then
-                  echo "✅ $output 下载成功"
+                  echo "✅ $output 下载成功 ($(du -h "$output" | cut -f1))"
                   return 0
                 else
                   echo "❌ $output 下载失败或为空"
@@ -316,14 +321,18 @@ jobs:
               return 1
             }
             
-            # 下载FCL启动器的三个版本，使用正确的文件名格式
+            # 下载FCL启动器的三个版本，在每个下载之间添加间隔
             echo "正在下载x86版本..."
             X86_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-x86.apk"
             download_file "$X86_URL" "FCL-v${FCL_VERSION}-x86.apk"
+            echo "x86版本下载完成，休息2秒..."
+            sleep 2
             
             echo "正在下载arm64-v8a版本..."
             ARM64_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-arm64-v8a.apk"
             download_file "$ARM64_URL" "FCL-v${FCL_VERSION}-arm64-v8a.apk"
+            echo "arm64-v8a版本下载完成，休息2秒..."
+            sleep 2
             
             echo "正在下载all版本..."
             ALL_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-all.apk"
