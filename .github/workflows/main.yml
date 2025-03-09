@@ -153,10 +153,7 @@ jobs:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           user: ${{ secrets.HOST_USERNAME }}  # 新增用户名配置
-          pass: ${{ secrets.HOST_PASSWORD }}  # 新增密码配置
-          args: -o PreferredAuthentications=password -o PubkeyAuthentication=no
+          key: ${{ secrets.KEY }}
           command: |
-            mkdir -p ~/.ssh
-            ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
             rsync -avz ./build/* ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }}:/1p/1panel/apps/openresty/www/sites/fcl.ningmo.fun/index/
             rsync -avz ./fcl-updates/* ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }}:/1p/1panel/apps/openresty/www/sites/cf.ningmo.fun/index/fcl/
