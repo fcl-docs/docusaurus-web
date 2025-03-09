@@ -190,13 +190,13 @@ jobs:
           command: |
             cd /tmp/fcl-deploy
             if [ -d "./build" ]; then
-              mkdir -p /1p/1panel/apps/openresty/www/sites/fcl.ningmo.fun/index/
+              mkdir -p /1p/1panel/apps/openresty/openresty/www/sites/fcl.ningmo.fun/index/
               cp -R ./build/* /1p/1panel/apps/openresty/openresty/www/sites/fcl.ningmo.fun/index/
               echo "Deployed build files successfully"
             fi
             
             if [ -d "./fcl-updates" ]; then
-              mkdir -p /1p/1panel/apps/openresty/www/sites/cf.ningmo.fun/index/fcl/
+              mkdir -p /1p/1panel/apps/openresty/openresty/www/sites/cf.ningmo.fun/index/fcl/
               cp -R ./fcl-updates/* /1p/1panel/apps/openresty/openresty/www/sites/cf.ningmo.fun/index/fcl/
               echo "Deployed update files successfully"
             fi
