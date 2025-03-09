@@ -181,7 +181,7 @@ jobs:
           
       # 保存下载的文件为artifacts
       - name: Upload FCL updates as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fcl-updates
           path: fcl-updates/
@@ -195,7 +195,7 @@ jobs:
       
       # 下载update任务中保存的artifacts
       - name: Download FCL updates
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: fcl-updates
           path: fcl-updates
