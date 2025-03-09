@@ -18,6 +18,8 @@ jobs:
     name: Update Launcher
     runs-on: ubuntu-latest
     continue-on-error: true
+    outputs:
+      fcl_version: ${{ steps.get.outputs.fcl_version }}
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -62,39 +64,64 @@ jobs:
       - name: Get ${{ matrix.abbr }} version
         id: get
         run: |
+          # 下载FCL官方的version_map.json获取最新版本
+          echo "正在从FCL官方仓库获取版本信息..."
+          wget -O version_map.json https://raw.githubusercontent.com/FCL-Team/FoldCraftLauncher/main/version_map.json
+          
+          # 提取最新版本信息 (第一个条目)
+          LATEST_VERSION_NAME=$(cat version_map.json | jq -r '.[0].versionName')
+          LATEST_VERSION_DATE=$(cat version_map.json | jq -r '.[0].date')
+          LATEST_VERSION_URL=$(cat version_map.json | jq -r '.[0].url')
+          LATEST_VERSION_TYPE=$(cat version_map.json | jq -r '.[0].type')
+          
+          echo "获取到的版本信息:"
+          echo "版本名称: $LATEST_VERSION_NAME"
+          echo "发布日期: $LATEST_VERSION_DATE"
+          echo "下载地址: $LATEST_VERSION_URL"
+          echo "版本类型: $LATEST_VERSION_TYPE"
+          
+          # 从官方下载URL提取正确的URL格式
+          URL_FORMAT=$(echo $LATEST_VERSION_URL | sed -E 's/.*\/([^\/]+)\/([^\/]+)$/\1\/\2/')
+          URL_PREFIX=$(echo $LATEST_VERSION_URL | sed -E 's/(.*)\/[^\/]+\/[^\/]+$/\1/')
+          BASE_URL_FORMAT=$(echo $LATEST_VERSION_URL | sed -E 's/(.*\/download\/)[^\/]+\/[^\/]+$/\1/')
+          FILE_PREFIX=$(echo $LATEST_VERSION_URL | grep -o 'FCL-[^-]*' | head -1)
+          
+          echo "URL前缀: $URL_PREFIX"
+          echo "基础URL格式: $BASE_URL_FORMAT"
+          echo "文件前缀: $FILE_PREFIX"
+          
+          # 提取版本号用于更新launcher.json5
           # Get Last Stable ${{ matrix.abbr }}
           LAST_STABLE_VERSION=`sed -n '/"${{ matrix.abbr }}"/,/"version":/p' launcher.json5 | sed -n '$p' | sed 's/^.*:\s*"v\?\|",$//gi' | sed 's/\./\\\\./g'`
           
           # Get Last Dev ${{ matrix.abbr }}
           LAST_DEV_VERSION=`sed -n '/"${{ matrix.abbr }}"/,/}/p' launcher.json5 | sed -n '/"dev":/,/"version":/p' | sed -n '$p' | sed 's/^.*:\s*"v\?\|"$//gi' | sed 's/\./\\\\./g'`
           
-          # GET Latest Stable ${{ matrix.abbr }}
-          if [ '${{ matrix.abbr }}' = HMCL ]; then
-            LATEST_STABLE_VERSION=`cat releases.json | sed -n '/"tag_name":\s*"release-/p' | sed -n 1p | sed 's/^.*release-\|",$//g' | sed 's/\./\\\\./g'`
-          else
-            LATEST_STABLE_VERSION=`cat latest.json | jq .tag_name | sed 's/^"v\?\|"$//gi' | sed 's/\./\\\\./g'`
-          fi
-          if [ ${#LATEST_STABLE_VERSION} = 0 ]; then
-            unset LAST_STABLE_VERSION
+          # 使用version_map.json中的版本作为最新稳定版
+          LATEST_STABLE_VERSION=`echo $LATEST_VERSION_NAME | sed 's/\./\\\\./g'`
+          
+          # 确保版本号非空
+          if [ -z "$LATEST_VERSION_NAME" ]; then
+            echo "警告: 无法从version_map.json获取版本号，使用硬编码的默认版本"
+            LATEST_VERSION_NAME="1.2.1.1"
+            LATEST_STABLE_VERSION="1\\.2\\.1\\.1"
           fi
           
-          # GET Latest Dev ${{ matrix.abbr }}
-          if [ "$LAST_DEV_VERSION" ]; then
-            LATEST_DEV_VERSION=`cat releases.json | sed -n '/"tag_name":/p' | sed -n 1p | sed 's/^.*:\s*"v\?\|",$//gi' | sed 's/\./\\\\./g'`
-            if [[ '${{ matrix.abbr }}' = HMCL && "$LATEST_DEV_VERSION" = release-* ]]; then
-              LATEST_DEV_VERSION=`cat releases.json | sed -n '/"tag_name": "[^r]/p' | sed -n 1p | sed 's/^.*:\s*"v\?\|",$//gi' | sed 's/\./\\\\./g'`
-            fi
-            if [ "$LATEST_DEV_VERSION" = "$LATEST_STABLE_VERSION" ]; then
-              unset LATEST_DEV_VERSION
-            fi
-          fi
+          # 保存下载URL格式供后续任务使用
+          echo "FCL_VERSION=$LATEST_VERSION_NAME" >> $GITHUB_ENV
+          echo "FCL_DATE=$LATEST_VERSION_DATE" >> $GITHUB_ENV
+          echo "FCL_URL_BASE=$BASE_URL_FORMAT" >> $GITHUB_ENV
+          echo "FCL_URL_FORMAT=$URL_FORMAT" >> $GITHUB_ENV
+          echo "FCL_FILE_PREFIX=$FILE_PREFIX" >> $GITHUB_ENV
           
-          # 储存最新版本号以便deploy任务使用
-          LATEST_VERSION=`echo $LATEST_STABLE_VERSION | sed 's/\\\\././g'`
-          echo "FCL_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+          # 输出变量
+          echo "fcl_version=$LATEST_VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "fcl_date=$LATEST_VERSION_DATE" >> $GITHUB_OUTPUT
+          echo "fcl_url_format=$URL_FORMAT" >> $GITHUB_OUTPUT
+          echo "fcl_file_prefix=$FILE_PREFIX" >> $GITHUB_OUTPUT
           
           # Remove Needless Files
-          rm latest.json releases.json launcher.json5
+          rm version_map.json launcher.json5
           
           # Output
           echo "last_stable_version=$LAST_STABLE_VERSION" >> $GITHUB_OUTPUT
@@ -153,11 +180,29 @@ jobs:
           default_author: github_actions
           message: ${{ steps.modify.outputs.message }}
 
+      # 输出将被传递给下一个任务的版本号
+      - name: Echo version for next job
+        run: |
+          echo "FCL版本号: ${{ env.FCL_VERSION }}"
+          echo "FCL发布日期: ${{ env.FCL_DATE }}"
+          echo "FCL下载URL格式: ${{ env.FCL_URL_FORMAT }}"
+          echo "FCL文件前缀: ${{ env.FCL_FILE_PREFIX }}"
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: update
+    env:
+      # 确保版本号可用于部署任务
+      FCL_VERSION: ${{ needs.update.outputs.fcl_version }}
+      FCL_DATE: ${{ needs.update.outputs.fcl_date }}
+      FCL_URL_FORMAT: ${{ needs.update.outputs.fcl_url_format }}
+      FCL_FILE_PREFIX: ${{ needs.update.outputs.fcl_file_prefix }}
+    outputs:
+      fcl_version: ${{ needs.update.outputs.fcl_version }}
     steps:
+      - run: echo "部署FCL版本: ${{ env.FCL_VERSION }}"
+      
       - uses: actions/checkout@main
 
       - name: Setup Node.js
@@ -222,9 +267,25 @@ jobs:
             # 转到FCL下载目录
             cd /tmp/fcl-updates
             
-            # 获取FCL最新版本
+            # 获取FCL版本信息
             FCL_VERSION="${{ env.FCL_VERSION }}"
+            FCL_DATE="${{ env.FCL_DATE }}"
+            FCL_URL_FORMAT="${{ env.FCL_URL_FORMAT }}"
+            FCL_FILE_PREFIX="${{ env.FCL_FILE_PREFIX }}"
+            
             echo "FCL版本: $FCL_VERSION"
+            echo "FCL发布日期: $FCL_DATE"
+            
+            # 确保版本信息非空
+            if [ -z "$FCL_VERSION" ]; then
+              echo "警告: 版本号为空，使用硬编码的默认版本"
+              FCL_VERSION="1.2.1.1"
+              FCL_FILE_PREFIX="FCL-release"
+              FCL_URL_FORMAT="1.2.1.1/FCL-release-1.2.1.1"
+            fi
+            
+            # 构建基础下载URL
+            BASE_URL="https://github.com/FCL-Team/FoldCraftLauncher/releases/download"
             
             # 下载函数，包含重试逻辑
             download_file() {
@@ -253,18 +314,21 @@ jobs:
               return 1
             }
             
-            # 下载FCL启动器的三个版本
+            # 下载FCL启动器的三个版本，使用从version_map.json提取的URL格式
             echo "正在下载x86版本..."
-            download_file "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/v${FCL_VERSION}/FCL-v${FCL_VERSION}-x86.apk" "FCL-v${FCL_VERSION}-x86.apk"
+            X86_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-x86.apk"
+            download_file "$X86_URL" "FCL-v${FCL_VERSION}-x86.apk"
             
             echo "正在下载arm64版本..."
-            download_file "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/v${FCL_VERSION}/FCL-v${FCL_VERSION}-arm64.apk" "FCL-v${FCL_VERSION}-arm64.apk"
+            ARM64_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-arm64.apk"
+            download_file "$ARM64_URL" "FCL-v${FCL_VERSION}-arm64.apk"
             
             echo "正在下载all版本..."
-            download_file "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/v${FCL_VERSION}/FCL-v${FCL_VERSION}-all.apk" "FCL-v${FCL_VERSION}-all.apk"
+            ALL_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-all.apk"
+            download_file "$ALL_URL" "FCL-v${FCL_VERSION}-all.apk"
             
             # 创建版本索引文件
-            echo "{\"version\":\"$FCL_VERSION\",\"releaseTime\":\"$(date +'%Y-%m-%d')\"}" > version.json
+            echo "{\"version\":\"$FCL_VERSION\",\"releaseTime\":\"$FCL_DATE\"}" > version.json
             
             # 列出下载的文件
             echo "已下载的文件:"
