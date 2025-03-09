@@ -146,16 +146,38 @@ jobs:
       - name: Build Docusaurus
         run: |
           npm run build
+          
+      - name: Copy files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          source: "build/,fcl-updates/"
+          target: "/tmp/fcl-deploy"
+          
       - name: Run remote commands
         id: run
         uses: fifsky/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
-          user: ${{ secrets.HOST_USERNAME }}  # 新增用户名配置
+          user: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.KEY }}
           pass: ${{ secrets.HOST_PASSWORD }}
-          args: -o StrictHostKeyChecking=no -vvv
+          args: -o StrictHostKeyChecking=no
           command: |
-            rsync -avz ./build/* ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }}:/1p/1panel/apps/openresty/www/sites/fcl.ningmo.fun/index/
-            rsync -avz ./fcl-updates/* ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }}:/1p/1panel/apps/openresty/www/sites/cf.ningmo.fun/index/fcl/
+            cd /tmp/fcl-deploy
+            if [ -d "./build" ]; then
+              mkdir -p /1p/1panel/apps/openresty/www/sites/fcl.ningmo.fun/index/
+              cp -R ./build/* /1p/1panel/apps/openresty/www/sites/fcl.ningmo.fun/index/
+              echo "Deployed build files successfully"
+            fi
+            
+            if [ -d "./fcl-updates" ]; then
+              mkdir -p /1p/1panel/apps/openresty/www/sites/cf.ningmo.fun/index/fcl/
+              cp -R ./fcl-updates/* /1p/1panel/apps/openresty/www/sites/cf.ningmo.fun/index/fcl/
+              echo "Deployed update files successfully"
+            fi
