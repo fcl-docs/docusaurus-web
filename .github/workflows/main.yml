@@ -154,6 +154,7 @@ jobs:
           port: ${{ secrets.PORT }}
           user: ${{ secrets.HOST_USERNAME }}  # 新增用户名配置
           pass: ${{ secrets.HOST_PASSWORD }}  # 新增密码配置
+          args: -o PreferredAuthentications=password -o PubkeyAuthentication=no
           command: |
             mkdir -p ~/.ssh
             ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
