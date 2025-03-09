@@ -152,8 +152,8 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
-          username: ${{ secrets.HOST_USERNAME }}  # 新增用户名配置
-          password: ${{ secrets.HOST_PASSWORD }}  # 新增密码配置
+          user: ${{ secrets.HOST_USERNAME }}  # 新增用户名配置
+          pass: ${{ secrets.HOST_PASSWORD }}  # 新增密码配置
           command: |
 
             rsync -avz ./build/* user@host:/1p/1panel/apps/openresty/openresty/www/sites/fcl.ningmo.fun/index/ 
