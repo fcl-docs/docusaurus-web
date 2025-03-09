@@ -80,14 +80,15 @@ jobs:
           echo "下载地址: $LATEST_VERSION_URL"
           echo "版本类型: $LATEST_VERSION_TYPE"
           
-          # 从官方下载URL提取正确的URL格式
-          URL_FORMAT=$(echo $LATEST_VERSION_URL | sed -E 's/.*\/([^\/]+)\/([^\/]+)$/\1\/\2/')
-          URL_PREFIX=$(echo $LATEST_VERSION_URL | sed -E 's/(.*)\/[^\/]+\/[^\/]+$/\1/')
-          BASE_URL_FORMAT=$(echo $LATEST_VERSION_URL | sed -E 's/(.*\/download\/)[^\/]+\/[^\/]+$/\1/')
-          FILE_PREFIX=$(echo $LATEST_VERSION_URL | grep -o 'FCL-[^-]*' | head -1)
+          # 直接从URL中提取文件前缀 - 更可靠的方法
+          FILE_PREFIX=$(echo $LATEST_VERSION_URL | sed -E 's|.*/([^/]+)-[0-9.]+.*\.apk$|\1|')
           
-          echo "URL前缀: $URL_PREFIX"
-          echo "基础URL格式: $BASE_URL_FORMAT"
+          # 确保FILE_PREFIX非空，否则使用默认值
+          if [ -z "$FILE_PREFIX" ]; then
+            echo "从URL中无法提取文件前缀，使用默认值"
+            FILE_PREFIX="FCL-release"
+          fi
+          
           echo "文件前缀: $FILE_PREFIX"
           
           # 提取版本号用于更新launcher.json5
@@ -110,14 +111,11 @@ jobs:
           # 保存下载URL格式供后续任务使用
           echo "FCL_VERSION=$LATEST_VERSION_NAME" >> $GITHUB_ENV
           echo "FCL_DATE=$LATEST_VERSION_DATE" >> $GITHUB_ENV
-          echo "FCL_URL_BASE=$BASE_URL_FORMAT" >> $GITHUB_ENV
-          echo "FCL_URL_FORMAT=$URL_FORMAT" >> $GITHUB_ENV
           echo "FCL_FILE_PREFIX=$FILE_PREFIX" >> $GITHUB_ENV
           
           # 输出变量
           echo "fcl_version=$LATEST_VERSION_NAME" >> $GITHUB_OUTPUT
           echo "fcl_date=$LATEST_VERSION_DATE" >> $GITHUB_OUTPUT
-          echo "fcl_url_format=$URL_FORMAT" >> $GITHUB_OUTPUT
           echo "fcl_file_prefix=$FILE_PREFIX" >> $GITHUB_OUTPUT
           
           # Remove Needless Files
@@ -185,7 +183,6 @@ jobs:
         run: |
           echo "FCL版本号: ${{ env.FCL_VERSION }}"
           echo "FCL发布日期: ${{ env.FCL_DATE }}"
-          echo "FCL下载URL格式: ${{ env.FCL_URL_FORMAT }}"
           echo "FCL文件前缀: ${{ env.FCL_FILE_PREFIX }}"
 
   deploy:
@@ -195,11 +192,11 @@ jobs:
     env:
       FCL_VERSION: ${{ needs.update.outputs.fcl_version }}
       FCL_DATE: ${{ needs.update.outputs.fcl_date }}
-      FCL_URL_FORMAT: ${{ needs.update.outputs.fcl_url_format }}
       FCL_FILE_PREFIX: ${{ needs.update.outputs.fcl_file_prefix }}
     steps:
       - name: Echo version information
-        run: echo "部署FCL最新版"
+        run: |
+          echo "fcl_version: ${{ env.FCL_VERSION }}"
       
       - uses: actions/checkout@main
 
@@ -268,18 +265,22 @@ jobs:
             # 获取FCL版本信息
             FCL_VERSION="${{ env.FCL_VERSION }}"
             FCL_DATE="${{ env.FCL_DATE }}"
-            FCL_URL_FORMAT="${{ env.FCL_URL_FORMAT }}"
             FCL_FILE_PREFIX="${{ env.FCL_FILE_PREFIX }}"
             
             echo "FCL版本: $FCL_VERSION"
             echo "FCL发布日期: $FCL_DATE"
+            echo "FCL文件前缀: $FCL_FILE_PREFIX"
             
             # 确保版本信息非空
             if [ -z "$FCL_VERSION" ]; then
               echo "警告: 版本号为空，使用硬编码的默认版本"
               FCL_VERSION="1.2.1.1"
+            fi
+            
+            # 确保文件前缀非空
+            if [ -z "$FCL_FILE_PREFIX" ]; then
+              echo "警告: 文件前缀为空，使用硬编码的默认前缀"
               FCL_FILE_PREFIX="FCL-release"
-              FCL_URL_FORMAT="1.2.1.1/FCL-release-1.2.1.1"
             fi
             
             # 构建基础下载URL
@@ -291,6 +292,9 @@ jobs:
               local output=$2
               local max_retries=3
               local retry=0
+              
+              echo "完整下载URL: $url"
+              echo "输出文件: $output"
               
               while [ $retry -lt $max_retries ]; do
                 echo "尝试下载 $url (尝试 $((retry+1))/$max_retries)"
@@ -312,7 +316,7 @@ jobs:
               return 1
             }
             
-            # 下载FCL启动器的三个版本，使用从version_map.json提取的URL格式
+            # 下载FCL启动器的三个版本，使用正确的文件名格式
             echo "正在下载x86版本..."
             X86_URL="$BASE_URL/$FCL_VERSION/${FCL_FILE_PREFIX}-${FCL_VERSION}-x86.apk"
             download_file "$X86_URL" "FCL-v${FCL_VERSION}-x86.apk"
