@@ -198,8 +198,6 @@ jobs:
       FCL_DATE: ${{ needs.update.outputs.fcl_date }}
       FCL_URL_FORMAT: ${{ needs.update.outputs.fcl_url_format }}
       FCL_FILE_PREFIX: ${{ needs.update.outputs.fcl_file_prefix }}
-    outputs:
-      fcl_version: ${{ needs.update.outputs.fcl_version }}
     steps:
       - run: echo "部署FCL版本: ${{ env.FCL_VERSION }}"
       
