@@ -31,6 +31,25 @@ jobs:
           API=`echo ${{ matrix.github }} | sed 's/:\/\/github\.com\//:\/\/api.github.com\/repos\//g' | sed 's/$/\/releases/g'`
           wget -O latest.json $API/latest || echo '{"tag_name":""}' > latest.json
           wget -O releases.json $API
+          
+          # 检查 data 目录是否存在，不存在则创建
+          if [ ! -d "data" ]; then
+            mkdir -p data
+          fi
+          
+          # 检查 launcher.json5 文件是否存在，不存在则创建一个基本的空白文件
+          if [ ! -f "data/launcher.json5" ]; then
+            echo '{
+              "FCL": {
+                "version": "0.0.0",
+                "dev": {
+                  "version": "0.0.0"
+                }
+              }
+            }' > data/launcher.json5
+            echo "创建了新的 launcher.json5 文件，因为原文件不存在"
+          fi
+          
           if [ '${{ matrix.device }}' ]; then
             DEVICE_LIST=`echo '${{ matrix.device }}' | sed 's/|/\\\\|/g'`
             sed -n '/\('"$DEVICE_LIST"'\)Launcher/,/]/p' data/launcher.json5 > launcher.json5
