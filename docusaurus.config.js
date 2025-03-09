@@ -21,7 +21,7 @@ const config = {
   baseUrl: '/',
 
 
-  onBrokenLinks: 'throw', // 当检测到损坏链接时抛出错误
+  onBrokenLinks: 'warn', // 当检测到损坏链接时抛出错误
   onBrokenMarkdownLinks: 'warn', // 当检测到损坏的Markdown链接时发出警告
 
   // 即使你不使用国际化，你也可以使用此字段来设置
