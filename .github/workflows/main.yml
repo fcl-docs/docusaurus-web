@@ -193,13 +193,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: update
     env:
-      # 确保版本号可用于部署任务
       FCL_VERSION: ${{ needs.update.outputs.fcl_version }}
       FCL_DATE: ${{ needs.update.outputs.fcl_date }}
       FCL_URL_FORMAT: ${{ needs.update.outputs.fcl_url_format }}
       FCL_FILE_PREFIX: ${{ needs.update.outputs.fcl_file_prefix }}
     steps:
-      - run: echo "部署FCL版本: ${{ env.FCL_VERSION }}"
+      - name: Echo version information
+        run: echo "部署FCL版本: ${{ env.FCL_VERSION }}"
       
       - uses: actions/checkout@main
 
