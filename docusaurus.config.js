@@ -153,7 +153,7 @@ const config = {
             ],
           },
         ],
-        copyright: `网站版权所有 © ${new Date().getFullYear()} 柠枺. 使用Docusaurus构建。<br/><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">新ICP备2024015133号-2-x</a>`, // 版权信息带备案号
+        copyright: `网站版权所有 © ${new Date().getFullYear()} 柠枺. 使用Docusaurus构建。<br/><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">新ICP备2024015133号-2</a>`, // 版权信息带备案号
       },
       prism: {
         theme: prismThemes.github, // Prism主题：GitHub风格
