@@ -57,7 +57,7 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js', // 侧边栏配置文件路径
           // 请将此更改为你的仓库地址。
-          // 删除此项以移除“编辑此页”链接。
+          // 删除此项以移除"编辑此页"链接。
           editUrl:
             'https://github.com/fcl-docs/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
@@ -68,7 +68,7 @@ const config = {
             xslt: true, // 启用XSLT转换
           },
           // 请将此更改为你的仓库地址。
-          // 删除此项以移除“编辑此页”链接。
+          // 删除此项以移除"编辑此页"链接。
           editUrl:
             'https://github.com/fcl-docs/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // 用于强制执行博客最佳实践的有用选项
@@ -153,7 +153,7 @@ const config = {
             ],
           },
         ],
-        copyright: `网站版权所有 © ${new Date().getFullYear()} 柠枺. 使用Docusaurus构建。`, // 版权信息
+        copyright: `网站版权所有 © ${new Date().getFullYear()} 柠枺. 使用Docusaurus构建。<br/><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">浙ICP备xxxxxxxx号-x</a>`, // 版权信息带备案号
       },
       prism: {
         theme: prismThemes.github, // Prism主题：GitHub风格
