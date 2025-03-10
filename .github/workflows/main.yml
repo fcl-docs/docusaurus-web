@@ -287,44 +287,59 @@ jobs:
             # 构建基础下载URL
             BASE_URL="https://github.com/FCL-Team/FoldCraftLauncher/releases/download"
             
-            # 设置代理服务器 - 使用环境变量或默认值
-            # 您可以在GitHub Secrets中设置这些值以自定义代理
-            PROXY_SERVER="${{ secrets.HTTP_PROXY }}"
-            if [ -z "$PROXY_SERVER" ]; then
-              # 使用默认的代理服务器，如果没有设置
-              PROXY_SERVER="http://ghproxy.com/"
-            fi
+            # 设置多个代理服务器 - 按优先级顺序排列
+            PROXY_SERVERS=(
+              "${{ secrets.HTTP_PROXY }}"           # 自定义代理（如果配置了）
+              "https://cdn.mengze.vip/gh/"          # 梦泽CDN镜像站 (首选)
+              "https://mirror.ghproxy.com/"         # 备用代理1
+              "https://gh.api.99988866.xyz/"        # 备用代理2
+              "https://gh.ddlc.top/"                # 备用代理3
+              "https://github.91chi.fun//"          # 备用代理4
+              "https://download.fastgit.org/"       # 备用代理5
+            )
             
-            # 下载函数，包含代理支持、重试逻辑和进度显示
+            # 下载函数，使用多个代理和改进的错误处理
             download_file() {
               local url=$1
               local output=$2
               local max_retries=3
-              local retry=0
+              local direct_retry=0
               
               echo "原始下载URL: $url"
               echo "输出文件: $output"
               
-              # 构建代理URL - 将GitHub URL附加到代理后面
-              local proxy_url="${PROXY_SERVER}${url}"
-              echo "代理下载URL: $proxy_url"
+              # 先尝试所有代理下载
+              for proxy in "${PROXY_SERVERS[@]}"; do
+                # 跳过空代理
+                if [ -z "$proxy" ]; then
+                  continue
+                fi
+                
+                # 构建代理URL
+                local proxy_url="${proxy}${url}"
+                echo "尝试使用代理: $proxy"
+                echo "完整代理URL: $proxy_url"
+                
+                # 尝试使用当前代理下载
+                wget --timeout=30 --tries=1 --progress=dot --limit-rate=2m "$proxy_url" -O "$output" 2>&1
+                
+                # 检查下载是否成功
+                if [ -f "$output" ] && [ -s "$output" ]; then
+                  echo "✅ 使用代理 $proxy 下载成功 ($(du -h "$output" | cut -f1))"
+                  return 0
+                else
+                  echo "⚠️ 使用代理 $proxy 下载失败"
+                  rm -f "$output" 2>/dev/null
+                  echo "等待3秒后尝试下一个代理..."
+                  sleep 3
+                fi
+              done
               
-              # 首先尝试使用代理下载
-              echo "尝试使用代理下载..."
-              wget --timeout=60 --tries=2 --progress=dot --limit-rate=2m "$proxy_url" -O "$output" 2>&1
+              echo "所有代理尝试失败，切换到直接下载..."
               
-              # 检查下载是否成功
-              if [ -f "$output" ] && [ -s "$output" ]; then
-                echo "✅ 使用代理下载成功 ($(du -h "$output" | cut -f1))"
-                return 0
-              else
-                echo "⚠️ 代理下载失败，尝试直接下载..."
-                rm -f "$output" 2>/dev/null
-              fi
-              
-              # 如果代理下载失败，尝试直接下载
-              while [ $retry -lt $max_retries ]; do
-                echo "尝试直接下载 $url (尝试 $((retry+1))/$max_retries)"
+              # 如果所有代理都失败，尝试直接下载
+              while [ $direct_retry -lt $max_retries ]; do
+                echo "尝试直接下载 $url (尝试 $((direct_retry+1))/$max_retries)"
                 rm -f "$output" 2>/dev/null
                 wget --timeout=60 --tries=3 --progress=dot --limit-rate=2m "$url" -O "$output" 2>&1 || echo "下载可能不完整"
                 
@@ -333,13 +348,28 @@ jobs:
                   return 0
                 else
                   echo "❌ $output 下载失败或为空"
-                  retry=$((retry+1))
-                  if [ $retry -lt $max_retries ]; then
-                    echo "等待5秒后重试..."
+                  direct_retry=$((direct_retry+1))
+                  if [ $direct_retry -lt $max_retries ]; then
+                    echo "等待5秒后重试直接下载..."
                     sleep 5
                   fi
                 fi
               done
+              
+              # 最后再尝试一次使用curl作为备选方案
+              if [ $direct_retry -eq $max_retries ]; then
+                echo "wget下载全部失败，尝试使用curl下载..."
+                rm -f "$output" 2>/dev/null
+                curl -L --connect-timeout 60 --max-time 300 --retry 3 --retry-delay 5 -o "$output" "$url"
+                
+                if [ -f "$output" ] && [ -s "$output" ]; then
+                  echo "✅ $output 使用curl下载成功 ($(du -h "$output" | cut -f1))"
+                  return 0
+                else
+                  echo "❌ 所有下载方法均失败"
+                  return 1
+                fi
+              fi
               
               return 1
             }
