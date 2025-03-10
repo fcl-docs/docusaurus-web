@@ -65,7 +65,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227939283,
-        "download_count": 35473,
+        "download_count": 38734,
         "created_at": "2025-03-06T01:57:14Z",
         "updated_at": "2025-03-06T01:57:21Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.1/FCL-release-1.2.1.1-all.apk"
@@ -100,7 +100,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 120501251,
-        "download_count": 2940,
+        "download_count": 3254,
         "created_at": "2025-03-06T01:58:16Z",
         "updated_at": "2025-03-06T01:58:19Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.1/FCL-release-1.2.1.1-arm64-v8a.apk"
@@ -135,7 +135,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 117395489,
-        "download_count": 232,
+        "download_count": 242,
         "created_at": "2025-03-06T01:58:49Z",
         "updated_at": "2025-03-06T01:58:53Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.1/FCL-release-1.2.1.1-armeabi-v7a.apk"
@@ -170,7 +170,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 111112435,
-        "download_count": 132,
+        "download_count": 140,
         "created_at": "2025-03-06T01:58:17Z",
         "updated_at": "2025-03-06T01:58:20Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.1/FCL-release-1.2.1.1-x86.apk"
@@ -205,7 +205,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 125473917,
-        "download_count": 166,
+        "download_count": 191,
         "created_at": "2025-03-06T01:58:31Z",
         "updated_at": "2025-03-06T01:58:35Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.1/FCL-release-1.2.1.1-x86_64.apk"
@@ -216,15 +216,15 @@
     "body": "",
     "reactions": {
       "url": "https://api.github.com/repos/FCL-Team/FoldCraftLauncher/releases/203998217/reactions",
-      "total_count": 14,
-      "+1": 9,
+      "total_count": 18,
+      "+1": 10,
       "-1": 0,
-      "laugh": 1,
+      "laugh": 2,
       "hooray": 0,
       "confused": 0,
       "heart": 0,
-      "rocket": 2,
-      "eyes": 2
+      "rocket": 3,
+      "eyes": 3
     }
   },
   {
@@ -293,7 +293,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227939275,
-        "download_count": 6756,
+        "download_count": 6767,
         "created_at": "2025-03-05T09:03:05Z",
         "updated_at": "2025-03-05T09:03:10Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.0/FCL-release-1.2.1.0-all.apk"
@@ -328,7 +328,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 120501247,
-        "download_count": 584,
+        "download_count": 593,
         "created_at": "2025-03-05T09:01:37Z",
         "updated_at": "2025-03-05T09:01:40Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.0/FCL-release-1.2.1.0-arm64-v8a.apk"
@@ -749,7 +749,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227927250,
-        "download_count": 40813,
+        "download_count": 40817,
         "created_at": "2025-02-28T01:51:42Z",
         "updated_at": "2025-02-28T01:51:51Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.8/FCL-release-1.2.0.8-all.apk"
@@ -784,7 +784,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 120489218,
-        "download_count": 3396,
+        "download_count": 3398,
         "created_at": "2025-02-28T01:52:06Z",
         "updated_at": "2025-02-28T01:52:09Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.8/FCL-release-1.2.0.8-arm64-v8a.apk"
@@ -977,7 +977,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227925070,
-        "download_count": 41289,
+        "download_count": 41292,
         "created_at": "2025-02-22T01:14:39Z",
         "updated_at": "2025-02-22T01:14:44Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.7/FCL-release-1.2.0.7-all.apk"
@@ -1205,7 +1205,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227924578,
-        "download_count": 46681,
+        "download_count": 46899,
         "created_at": "2025-02-16T02:04:51Z",
         "updated_at": "2025-02-16T02:04:56Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.6/FCL-release-1.2.0.6-all.apk"
@@ -1433,7 +1433,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227804886,
-        "download_count": 47768,
+        "download_count": 47772,
         "created_at": "2025-02-10T06:30:59Z",
         "updated_at": "2025-02-10T06:31:03Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.5/FCL-release-1.2.0.5-all.apk"
@@ -1468,7 +1468,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 120366854,
-        "download_count": 4899,
+        "download_count": 4901,
         "created_at": "2025-02-10T06:30:55Z",
         "updated_at": "2025-02-10T06:30:58Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.5/FCL-release-1.2.0.5-arm64-v8a.apk"
@@ -1573,7 +1573,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 125339516,
-        "download_count": 278,
+        "download_count": 279,
         "created_at": "2025-02-10T06:31:02Z",
         "updated_at": "2025-02-10T06:31:04Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.5/FCL-release-1.2.0.5-x86_64.apk"
@@ -1661,7 +1661,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227748687,
-        "download_count": 48931,
+        "download_count": 48934,
         "created_at": "2025-02-03T05:21:01Z",
         "updated_at": "2025-02-03T05:21:06Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.4/FCL-release-1.2.0.4-all.apk"
@@ -1889,7 +1889,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227741669,
-        "download_count": 36810,
+        "download_count": 36813,
         "created_at": "2025-01-30T03:14:31Z",
         "updated_at": "2025-01-30T03:14:35Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.3/FCL-release-1.2.0.3-all.apk"
@@ -2117,7 +2117,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227738172,
-        "download_count": 60408,
+        "download_count": 60462,
         "created_at": "2025-01-23T11:20:03Z",
         "updated_at": "2025-01-23T11:20:11Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.2/FCL-release-1.2.0.2-all.apk"
@@ -2345,7 +2345,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227737824,
-        "download_count": 29885,
+        "download_count": 29892,
         "created_at": "2025-01-19T10:17:08Z",
         "updated_at": "2025-01-19T10:17:13Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.1/FCL-release-1.2.0.1-all.apk"
@@ -2380,7 +2380,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 120306734,
-        "download_count": 3006,
+        "download_count": 3009,
         "created_at": "2025-01-19T10:17:22Z",
         "updated_at": "2025-01-19T10:17:26Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0.1/FCL-release-1.2.0.1-arm64-v8a.apk"
@@ -2573,7 +2573,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 227738108,
-        "download_count": 25638,
+        "download_count": 25641,
         "created_at": "2025-01-16T01:46:57Z",
         "updated_at": "2025-01-16T01:47:01Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.0/FCL-release-1.2.0-all.apk"
@@ -2801,7 +2801,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 231216813,
-        "download_count": 46670,
+        "download_count": 46678,
         "created_at": "2025-01-09T02:38:06Z",
         "updated_at": "2025-01-09T02:38:13Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.9/FCL-release-1.1.9.9-all.apk"
@@ -3029,7 +3029,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 231213525,
-        "download_count": 45833,
+        "download_count": 45836,
         "created_at": "2025-01-01T01:04:29Z",
         "updated_at": "2025-01-01T01:04:34Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.8/FCL-release-1.1.9.8-all.apk"
@@ -3064,7 +3064,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 121176707,
-        "download_count": 4713,
+        "download_count": 4714,
         "created_at": "2025-01-01T01:04:44Z",
         "updated_at": "2025-01-01T01:04:48Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.8/FCL-release-1.1.9.8-arm64-v8a.apk"
@@ -3257,7 +3257,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 216053320,
-        "download_count": 41956,
+        "download_count": 41958,
         "created_at": "2024-12-27T03:04:42Z",
         "updated_at": "2024-12-27T03:04:46Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.7/FCL-release-1.1.9.7-all.apk"
@@ -4169,7 +4169,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 216296477,
-        "download_count": 41288,
+        "download_count": 41289,
         "created_at": "2024-12-12T02:14:02Z",
         "updated_at": "2024-12-12T02:14:09Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.3/FCL-release-1.1.9.3-all.apk"
@@ -4502,7 +4502,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 133805699,
-        "download_count": 108,
+        "download_count": 109,
         "created_at": "2024-12-05T03:20:34Z",
         "updated_at": "2024-12-05T03:20:37Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9.2/FCL-release-1.1.9.2-x86.apk"
@@ -4853,7 +4853,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 216281527,
-        "download_count": 39677,
+        "download_count": 39678,
         "created_at": "2024-11-21T04:33:58Z",
         "updated_at": "2024-11-21T04:34:02Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.9/FCL-release-1.1.9-all.apk"
@@ -5081,7 +5081,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 216278495,
-        "download_count": 32035,
+        "download_count": 32036,
         "created_at": "2024-11-16T01:55:06Z",
         "updated_at": "2024-11-16T01:55:13Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.8.9/FCL-release-1.1.8.9-all.apk"
@@ -6449,7 +6449,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 226066675,
-        "download_count": 24510,
+        "download_count": 24511,
         "created_at": "2024-10-02T04:02:56Z",
         "updated_at": "2024-10-02T04:03:00Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.8.3/FCL-release-1.1.8.3-all.apk"
@@ -6677,7 +6677,7 @@
         "content_type": "application/vnd.android.package-archive",
         "state": "uploaded",
         "size": 226054018,
-        "download_count": 36050,
+        "download_count": 36051,
         "created_at": "2024-09-27T04:21:47Z",
         "updated_at": "2024-09-27T04:21:51Z",
         "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.1.8.2/FCL-release-1.1.8.2-all.apk"
