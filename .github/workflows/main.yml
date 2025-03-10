@@ -287,26 +287,49 @@ jobs:
             # 构建基础下载URL
             BASE_URL="https://github.com/FCL-Team/FoldCraftLauncher/releases/download"
             
-            # 下载函数，包含重试逻辑和进度显示
+            # 设置代理服务器 - 使用环境变量或默认值
+            # 您可以在GitHub Secrets中设置这些值以自定义代理
+            PROXY_SERVER="${{ secrets.HTTP_PROXY }}"
+            if [ -z "$PROXY_SERVER" ]; then
+              # 使用默认的代理服务器，如果没有设置
+              PROXY_SERVER="http://ghproxy.com/"
+            fi
+            
+            # 下载函数，包含代理支持、重试逻辑和进度显示
             download_file() {
               local url=$1
               local output=$2
               local max_retries=3
               local retry=0
               
-              echo "完整下载URL: $url"
+              echo "原始下载URL: $url"
               echo "输出文件: $output"
               
+              # 构建代理URL - 将GitHub URL附加到代理后面
+              local proxy_url="${PROXY_SERVER}${url}"
+              echo "代理下载URL: $proxy_url"
+              
+              # 首先尝试使用代理下载
+              echo "尝试使用代理下载..."
+              wget --timeout=60 --tries=2 --progress=dot --limit-rate=2m "$proxy_url" -O "$output" 2>&1
+              
+              # 检查下载是否成功
+              if [ -f "$output" ] && [ -s "$output" ]; then
+                echo "✅ 使用代理下载成功 ($(du -h "$output" | cut -f1))"
+                return 0
+              else
+                echo "⚠️ 代理下载失败，尝试直接下载..."
+                rm -f "$output" 2>/dev/null
+              fi
+              
+              # 如果代理下载失败，尝试直接下载
               while [ $retry -lt $max_retries ]; do
-                echo "尝试下载 $url (尝试 $((retry+1))/$max_retries)"
-                # 使用 -q 参数会隐藏进度条，而这可能导致SSH连接超时
-                # 使用进度条并设置超时可以保持连接活跃
-                # 添加下载速度限制为2MB/s
+                echo "尝试直接下载 $url (尝试 $((retry+1))/$max_retries)"
                 rm -f "$output" 2>/dev/null
                 wget --timeout=60 --tries=3 --progress=dot --limit-rate=2m "$url" -O "$output" 2>&1 || echo "下载可能不完整"
                 
                 if [ -f "$output" ] && [ -s "$output" ]; then
-                  echo "✅ $output 下载成功 ($(du -h "$output" | cut -f1))"
+                  echo "✅ $output 直接下载成功 ($(du -h "$output" | cut -f1))"
                   return 0
                 else
                   echo "❌ $output 下载失败或为空"
