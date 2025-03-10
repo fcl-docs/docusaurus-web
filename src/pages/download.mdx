@@ -1,90 +1,142 @@
+---
+title: 下载FCL启动器
+description: 下载Fold Craft Launcher (FCL) - 在安卓设备上运行Minecraft Java版
+hide_table_of_contents: false
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Fold Craft Launcher 下载
+export const FCL_VERSION = "1.2.1.1";
+export const FCL_DATE = "2025.03.06";
+export const FILE_PREFIX = "FCL-release";
 
-## 启动器下载
+# 下载 Fold Craft Launcher
 
-<Tabs groupId="launcher-version">
-  <TabItem value="all" label="通用版 (All)" default>
-    <Tabs>
-      <TabItem value="direct" label="直连下载">
-        [点我开始下载](/downloads/launcher/all/[最新版本].zip)
-      </TabItem>
-      <TabItem value="github" label="GitHub">
-        [点我开始下载](https://github.com/your-repo/fold-craft-launcher/releases/all/[版本号])
-      </TabItem>
-      <TabItem value="balam" label="八蓝米">
-        [点我开始下载](https://balam.cloud/download/foldcraft/launcher/all/[版本号])
-      </TabItem>
-      <TabItem value="123pan" label="123云盘">
-        [点我开始下载](https://www.123pan.com/s/foldcraft-[随机码])
-      </TabItem>
-      <TabItem value="cf" label="Cloudflare">
-        [点我开始下载](https://cdn.foldcraft.com/launcher/all/[版本号])
-      </TabItem>
-    </Tabs>
+<div className="download-header">
+  <div className="version-info">
+    <h2>最新版本: {FCL_VERSION}</h2>
+    <p>发布日期: {FCL_DATE}</p>
+  </div>
+  <div className="download-button-container">
+    <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-button">
+      下载通用版
+    </a>
+    <a href="https://www.123pan.com/s/foldcraft-random" className="download-button download-button-alt">
+      网盘下载
+    </a>
+  </div>
+</div>
+
+## 选择适合您设备的版本
+
+请根据您的设备选择合适的版本：
+
+<Tabs groupId="device-architecture">
+
+
+
+  <TabItem value="all" label="通用版" default>
+    <p>适用于大多数设备，包含所有架构支持</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-link">
+            下载APK (通用版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href={`https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-link">
+            下载APK (通用版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="https://www.123pan.com/s/foldcraft-random" className="download-link">
+            网盘下载 - 通用版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
   </TabItem>
-
+  
   <TabItem value="arm64" label="ARM64版">
-    <Tabs>
-      <TabItem value="direct" label="直连下载">
-        [点我开始下载](/downloads/launcher/arm64/[最新版本].zip)
-      </TabItem>
-      <TabItem value="github" label="GitHub">
-        [点我开始下载](https://github.com/your-repo/fold-craft-launcher/releases/arm64/[版本号])
-      </TabItem>
-      <TabItem value="balam" label="八蓝米">
-        [点我开始下载](https://balam.cloud/download/foldcraft/launcher/arm64/[版本号])
-      </TabItem>
-      <TabItem value="123pan" label="123云盘">
-        [点我开始下载](https://www.123pan.com/s/foldcraft-arm64-[随机码])
-      </TabItem>
-      <TabItem value="cf" label="Cloudflare">
-        [点我开始下载](https://cdn.foldcraft.com/launcher/arm64/[版本号])
-      </TabItem>
-    </Tabs>
+    <p>适用于搭载ARM处理器的手机、平板等设备</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-arm64-v8a.apk`} className="download-link">
+            下载APK (ARM64版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href={`https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-arm64-v8a.apk`} className="download-link">
+            下载APK (ARM64版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="https://www.123pan.com/s/foldcraft-random" className="download-link">
+            网盘下载 - ARM64版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
   </TabItem>
-
+  
   <TabItem value="x86" label="x86版">
-    <Tabs>
-      <TabItem value="direct" label="直连下载">
-        [点我开始下载](/downloads/launcher/x86/[最新版本].zip)
-      </TabItem>
-      <TabItem value="github" label="GitHub">
-        [点我开始下载](https://github.com/your-repo/fold-craft-launcher/releases/x86/[版本号])
-      </TabItem>
-      <TabItem value="balam" label="八蓝米">
-        [点我开始下载](https://balam.cloud/download/foldcraft/launcher/x86/[版本号])
-      </TabItem>
-      <TabItem value="123pan" label="123云盘">
-        [点我开始下载](https://www.123pan.com/s/foldcraft-x86-[随机码])
-      </TabItem>
-      <TabItem value="cf" label="Cloudflare">
-        [点我开始下载](https://cdn.foldcraft.com/launcher/x86/[版本号])
-      </TabItem>
-    </Tabs>
+    <p>适用于搭载Intel或AMD处理器的设备</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-x86.apk`} className="download-link">
+            下载APK (x86版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href={`https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-x86.apk`} className="download-link">
+            下载APK (x86版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="https://www.123pan.com/s/foldcraft-random" className="download-link">
+            网盘下载 - x86版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
   </TabItem>
 </Tabs>
 
-## 渲染器下载
+## 版本更新日志
+
+<div className="changelog">
+  <Tabs>
+    <TabItem value="zh" label="中文" default>
+      <pre className="changelog-content">
+        - 修复了游戏启动问题
+        - 优化UI界面
+        - 添加了新的自定义主题选项
+        - 改进了Java版本选择器
+      </pre>
+    </TabItem>
+    <TabItem value="en" label="English">
+      <pre className="changelog-content">
+        - Fixed game launching issues
+        - Optimized UI interface
+        - Added new custom theme options
+        - Improved Java version selector
+      </pre>
+    </TabItem>
+  </Tabs>
+</div>
+
+## 相关下载
 
 ### MobileGlues渲染器
-[直连下载](/downloads/renderer/[最新版本].zip)  
-[GitHub Releases](https://github.com/Swung0x48/MobileGlues-release)（保持最新版本）
+优化的渲染器，提供更好的游戏性能
+- [GitHub下载](https://github.com/Swung0x48/MobileGlues-release/releases/latest)
+- [国内加速镜像](https://ghproxy.com/https://github.com/Swung0x48/MobileGlues-release/releases/latest)
 
-### kw渲染器
-[直连下载](/downloads/hd-renderer/[最新版本].zip)
-
-## 驱动下载
-
-### 暂无
-
-:::tip
-请根据您的系统架构选择对应的启动器版本：
-- 💻 现代设备建议选择 **通用版 (All)**
-- 📱 手机/平板设备选择 **ARM64版**
-- 🖥️ 老旧电脑选择 **x86版**
-
-下载遇到问题时可以尝试切换不同的下载源
-:::
+### 历史版本
+需要历史版本？请访问：
+- [GitHub发布页](https://github.com/FCL-Team/FoldCraftLauncher/releases)
+- [国内加速镜像](https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases)

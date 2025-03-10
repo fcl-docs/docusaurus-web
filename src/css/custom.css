@@ -28,3 +28,108 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* 导入下载页面样式 */
+/* 下载页面样式 */
+.download-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--ifm-color-primary-lightest);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.version-info {
+  margin-bottom: 1.5rem;
+}
+
+.version-info h2 {
+  margin-bottom: 0.5rem;
+}
+
+.download-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.download-button:hover {
+  background: var(--ifm-color-primary-dark);
+  color: white;
+  text-decoration: none;
+}
+
+.download-button-alt {
+  background: var(--ifm-color-gray-700);
+}
+
+.download-button-alt:hover {
+  background: var(--ifm-color-gray-800);
+}
+
+.download-options {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+}
+
+.download-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary-lighter);
+  color: var(--ifm-font-color-base);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.download-link:hover {
+  background: var(--ifm-color-primary-light);
+  text-decoration: none;
+}
+
+.changelog {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.changelog-content {
+  padding: 1rem;
+  white-space: pre-wrap;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+/* 响应式设计 */
+@media (min-width: 768px) {
+  .download-header {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  .version-info {
+    margin-bottom: 0;
+  }
+}

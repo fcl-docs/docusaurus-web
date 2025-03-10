@@ -1,0 +1,370 @@
+name: 更新下载页面信息
+run-name: 手动更新下载页面版本和日志
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: '强制更新（即使版本相同）'
+        required: false
+        default: 'false'
+        type: boolean
+
+# 添加权限配置
+permissions:
+  contents: write
+
+jobs:
+  update-download-page:
+    name: 更新下载页面
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: 获取FCL最新版本信息
+        id: get-version
+        run: |
+          echo "获取FCL版本信息..."
+          curl -s https://raw.githubusercontent.com/FCL-Team/FoldCraftLauncher/main/version_map.json -o version_map.json
+          
+          # 提取版本信息
+          LATEST_VERSION=$(cat version_map.json | jq -r '.[0].versionName')
+          RELEASE_DATE=$(cat version_map.json | jq -r '.[0].date')
+          VERSION_CODE=$(cat version_map.json | jq -r '.[0].versionCode')
+          NETDISK_URL=$(cat version_map.json | jq -r '.[0].netdiskUrl')
+          DIRECT_URL=$(cat version_map.json | jq -r '.[0].url')
+          
+          # 提取更新日志（中文）
+          CHANGELOG_ZH=$(cat version_map.json | jq -r '.[0].description[] | select(.lang == "zh_CN") | .text')
+          # 提取更新日志（英文）
+          CHANGELOG_EN=$(cat version_map.json | jq -r '.[0].description[] | select(.lang == "en") | .text')
+          
+          # 输出到环境变量
+          echo "FCL_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+          echo "FCL_DATE=$RELEASE_DATE" >> $GITHUB_ENV
+          echo "FCL_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "FCL_NETDISK=$NETDISK_URL" >> $GITHUB_ENV
+          echo "FCL_DIRECT=$DIRECT_URL" >> $GITHUB_ENV
+          
+          # 使用多行输出
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "CHANGELOG_ZH<<$EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG_ZH" >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+          
+          echo "CHANGELOG_EN<<$EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG_EN" >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+          
+          # 打印获取的信息
+          echo "FCL最新版本: $LATEST_VERSION (版本码: $VERSION_CODE)"
+          echo "发布日期: $RELEASE_DATE"
+          echo "网盘链接: $NETDISK_URL"
+          echo "直接下载链接: $DIRECT_URL"
+      
+      - name: 检查本地版本信息
+        id: check-version
+        run: |
+          # 获取现有下载页面中的版本号（如果存在）
+          if [ -f "src/pages/download.mdx" ]; then
+            CURRENT_VERSION=$(grep -o 'FCL_VERSION: "[^"]*"' src/pages/download.mdx | head -1 | cut -d'"' -f2 || echo "0.0.0")
+            echo "当前文档版本: $CURRENT_VERSION"
+            echo "要更新的版本: ${{ env.FCL_VERSION }}"
+            
+            if [ "$CURRENT_VERSION" = "${{ env.FCL_VERSION }}" ] && [ "${{ github.event.inputs.force_update }}" != "true" ]; then
+              echo "VERSION_CHANGED=false" >> $GITHUB_ENV
+              echo "版本相同，无需更新"
+            else
+              echo "VERSION_CHANGED=true" >> $GITHUB_ENV
+              echo "需要更新版本"
+            fi
+          else
+            echo "VERSION_CHANGED=true" >> $GITHUB_ENV
+            echo "下载页面不存在，将创建新页面"
+          fi
+      
+      - name: 更新下载页面
+        if: env.VERSION_CHANGED == 'true'
+        run: |
+          echo "更新下载页面..."
+          
+          # 提取直接下载链接中的文件前缀
+          DIRECT_URL="${{ env.FCL_DIRECT }}"
+          FILE_PREFIX=$(echo "$DIRECT_URL" | sed -E 's|.*/([^/]+)-[0-9.]+.*\.apk$|\1|')
+          
+          # 如果提取失败，使用默认值
+          if [ -z "$FILE_PREFIX" ]; then
+            FILE_PREFIX="FCL-release"
+          fi
+          
+          # 构建下载链接
+          GITHUB_BASE="https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${{ env.FCL_VERSION }}"
+          
+          # 创建下载页面
+          cat > src/pages/download.mdx << EOF
+---
+title: 下载FCL启动器
+description: 下载Fold Craft Launcher (FCL) - 在安卓设备上运行Minecraft Java版
+hide_table_of_contents: false
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+export const FCL_VERSION = "${{ env.FCL_VERSION }}";
+export const FCL_DATE = "${{ env.FCL_DATE }}";
+export const FCL_CODE = "${{ env.FCL_CODE }}";
+export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
+
+# 下载 Fold Craft Launcher
+
+<div className="download-header">
+  <div className="version-info">
+    <h2>最新版本: {FCL_VERSION}</h2>
+    <p>发布日期: {FCL_DATE}</p>
+    <p>版本代码: {FCL_CODE}</p>
+  </div>
+  <div className="download-button-container">
+    <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-button">
+      下载通用版
+    </a>
+    <a href="${{ env.FCL_NETDISK }}" className="download-button download-button-alt">
+      网盘下载
+    </a>
+  </div>
+</div>
+
+## 选择适合您设备的版本
+
+请根据您的设备选择合适的版本：
+
+<Tabs groupId="device-architecture">
+  <TabItem value="all" label="通用版" default>
+    <p>适用于大多数设备，包含所有架构支持</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-link">
+            下载APK (通用版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-link">
+            下载APK (通用版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+            夸克网盘下载 - 通用版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
+  </TabItem>
+  
+  <TabItem value="arm64" label="ARM64版">
+    <p>适用于搭载ARM处理器的手机、平板等设备</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk" className="download-link">
+            下载APK (ARM64版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk" className="download-link">
+            下载APK (ARM64版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+            夸克网盘下载 - ARM64版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
+  </TabItem>
+  
+  <TabItem value="x86" label="x86版">
+    <p>适用于搭载Intel或AMD处理器的设备</p>
+    <div className="download-options">
+      <Tabs>
+        <TabItem value="github" label="GitHub下载">
+          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk" className="download-link">
+            下载APK (x86版)
+          </a>
+        </TabItem>
+        <TabItem value="mirror" label="国内镜像">
+          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk" className="download-link">
+            下载APK (x86版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="netdisk" label="网盘下载">
+          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+            夸克网盘下载 - x86版
+          </a>
+        </TabItem>
+      </Tabs>
+    </div>
+  </TabItem>
+</Tabs>
+
+## 版本更新日志
+
+<div className="changelog">
+  <Tabs>
+    <TabItem value="zh" label="中文" default>
+      <pre className="changelog-content">
+        {String(\`${{ env.CHANGELOG_ZH }}\`).split('\\\\n').map((line, i) => (
+          <div key={i}>{line}</div>
+        ))}
+      </pre>
+    </TabItem>
+    <TabItem value="en" label="English">
+      <pre className="changelog-content">
+        {String(\`${{ env.CHANGELOG_EN }}\`).split('\\\\n').map((line, i) => (
+          <div key={i}>{line}</div>
+        ))}
+      </pre>
+    </TabItem>
+  </Tabs>
+</div>
+
+## 相关下载
+
+### MobileGlues渲染器
+优化的渲染器，提供更好的游戏性能
+- [GitHub下载](https://github.com/Swung0x48/MobileGlues-release/releases/latest)
+- [国内加速镜像](https://ghproxy.com/https://github.com/Swung0x48/MobileGlues-release/releases/latest)
+
+### 历史版本
+需要历史版本？请访问：
+- [GitHub发布页](https://github.com/FCL-Team/FoldCraftLauncher/releases)
+- [国内加速镜像](https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases)
+EOF
+          
+          # 创建CSS文件来自定义下载页面样式
+          mkdir -p src/css
+          cat > src/css/download.css << EOF
+/* 下载页面样式 */
+.download-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--ifm-color-primary-lightest);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.version-info {
+  margin-bottom: 1.5rem;
+}
+
+.version-info h2 {
+  margin-bottom: 0.5rem;
+}
+
+.download-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.download-button:hover {
+  background: var(--ifm-color-primary-dark);
+  color: white;
+  text-decoration: none;
+}
+
+.download-button-alt {
+  background: var(--ifm-color-gray-700);
+}
+
+.download-button-alt:hover {
+  background: var(--ifm-color-gray-800);
+}
+
+.download-options {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+}
+
+.download-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary-lighter);
+  color: var(--ifm-font-color-base);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.download-link:hover {
+  background: var(--ifm-color-primary-light);
+  text-decoration: none;
+}
+
+.changelog {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.changelog-content {
+  padding: 1rem;
+  white-space: pre-wrap;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+/* 响应式设计 */
+@media (min-width: 768px) {
+  .download-header {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  .version-info {
+    margin-bottom: 0;
+  }
+}
+EOF
+
+          # 更新自定义CSS导入
+          if ! grep -q "download.css" src/css/custom.css; then
+            echo "/* 导入下载页面样式 */" >> src/css/custom.css
+            echo "@import './download.css';" >> src/css/custom.css
+          fi
+          
+          echo "下载页面已更新为版本 ${{ env.FCL_VERSION }}"
+      
+      - name: 提交更改
+        if: env.VERSION_CHANGED == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'src/pages/download.mdx src/css/download.css src/css/custom.css'
+          message: '更新下载页面到 FCL v${{ env.FCL_VERSION }} (${{ env.FCL_DATE }})'
+          default_author: github_actions 
