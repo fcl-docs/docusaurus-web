@@ -103,7 +103,7 @@ jobs:
           GITHUB_BASE="https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${{ env.FCL_VERSION }}"
           
           # 创建下载页面
-          cat > src/pages/download.mdx << EOF
+          cat > src/pages/download.mdx << 'EOF'
 ---
 title: 下载FCL启动器
 description: 下载Fold Craft Launcher (FCL) - 在安卓设备上运行Minecraft Java版
@@ -247,7 +247,7 @@ EOF
           
           # 创建CSS文件来自定义下载页面样式
           mkdir -p src/css
-          cat > src/css/download.css << EOF
+          cat > src/css/download.css << 'EOF'
 /* 下载页面样式 */
 .download-header {
   display: flex;
