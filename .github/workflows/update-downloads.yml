@@ -19,7 +19,8 @@ jobs:
     name: 更新下载页面
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: 检出代码
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       
@@ -49,14 +50,13 @@ jobs:
           echo "FCL_DIRECT=$DIRECT_URL" >> $GITHUB_ENV
           
           # 使用多行输出
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "CHANGELOG_ZH<<$EOF" >> $GITHUB_ENV
+          echo 'CHANGELOG_ZH<<EOF' >> $GITHUB_ENV
           echo "$CHANGELOG_ZH" >> $GITHUB_ENV
-          echo "$EOF" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
           
-          echo "CHANGELOG_EN<<$EOF" >> $GITHUB_ENV
+          echo 'CHANGELOG_EN<<EOF' >> $GITHUB_ENV
           echo "$CHANGELOG_EN" >> $GITHUB_ENV
-          echo "$EOF" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
           
           # 打印获取的信息
           echo "FCL最新版本: $LATEST_VERSION (版本码: $VERSION_CODE)"
@@ -102,9 +102,8 @@ jobs:
           # 构建下载链接
           GITHUB_BASE="https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${{ env.FCL_VERSION }}"
           
-          # 创建下载页面
-          cat > src/pages/download.mdx << 'EOF'
----
+          # 用于临时存储页面内容
+          PAGE_CONTENT="---
 title: 下载FCL启动器
 description: 下载Fold Craft Launcher (FCL) - 在安卓设备上运行Minecraft Java版
 hide_table_of_contents: false
@@ -113,24 +112,24 @@ hide_table_of_contents: false
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-export const FCL_VERSION = "${{ env.FCL_VERSION }}";
-export const FCL_DATE = "${{ env.FCL_DATE }}";
-export const FCL_CODE = "${{ env.FCL_CODE }}";
-export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
+export const FCL_VERSION = \"${{ env.FCL_VERSION }}\";
+export const FCL_DATE = \"${{ env.FCL_DATE }}\";
+export const FCL_CODE = \"${{ env.FCL_CODE }}\";
+export const NETDISK_URL = \"${{ env.FCL_NETDISK }}\";
 
 # 下载 Fold Craft Launcher
 
-<div className="download-header">
-  <div className="version-info">
+<div className=\"download-header\">
+  <div className=\"version-info\">
     <h2>最新版本: {FCL_VERSION}</h2>
     <p>发布日期: {FCL_DATE}</p>
     <p>版本代码: {FCL_CODE}</p>
   </div>
-  <div className="download-button-container">
-    <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-button">
+  <div className=\"download-button-container\">
+    <a href=\"${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk\" className=\"download-button\">
       下载通用版
     </a>
-    <a href="${{ env.FCL_NETDISK }}" className="download-button download-button-alt">
+    <a href=\"${{ env.FCL_NETDISK }}\" className=\"download-button download-button-alt\">
       网盘下载
     </a>
   </div>
@@ -140,23 +139,23 @@ export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
 
 请根据您的设备选择合适的版本：
 
-<Tabs groupId="device-architecture">
-  <TabItem value="all" label="通用版" default>
+<Tabs groupId=\"device-architecture\">
+  <TabItem value=\"all\" label=\"通用版\" default>
     <p>适用于大多数设备，包含所有架构支持</p>
-    <div className="download-options">
+    <div className=\"download-options\">
       <Tabs>
-        <TabItem value="github" label="GitHub下载">
-          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-link">
+        <TabItem value=\"github\" label=\"GitHub下载\">
+          <a href=\"${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk\" className=\"download-link\">
             下载APK (通用版)
           </a>
         </TabItem>
-        <TabItem value="mirror" label="国内镜像">
-          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk" className="download-link">
+        <TabItem value=\"mirror\" label=\"国内镜像\">
+          <a href=\"https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-all.apk\" className=\"download-link\">
             下载APK (通用版) - 加速镜像
           </a>
         </TabItem>
-        <TabItem value="netdisk" label="网盘下载">
-          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+        <TabItem value=\"netdisk\" label=\"网盘下载\">
+          <a href=\"${{ env.FCL_NETDISK }}\" className=\"download-link\">
             夸克网盘下载 - 通用版
           </a>
         </TabItem>
@@ -164,22 +163,22 @@ export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
     </div>
   </TabItem>
   
-  <TabItem value="arm64" label="ARM64版">
+  <TabItem value=\"arm64\" label=\"ARM64版\">
     <p>适用于搭载ARM处理器的手机、平板等设备</p>
-    <div className="download-options">
+    <div className=\"download-options\">
       <Tabs>
-        <TabItem value="github" label="GitHub下载">
-          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk" className="download-link">
+        <TabItem value=\"github\" label=\"GitHub下载\">
+          <a href=\"${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk\" className=\"download-link\">
             下载APK (ARM64版)
           </a>
         </TabItem>
-        <TabItem value="mirror" label="国内镜像">
-          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk" className="download-link">
+        <TabItem value=\"mirror\" label=\"国内镜像\">
+          <a href=\"https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-arm64-v8a.apk\" className=\"download-link\">
             下载APK (ARM64版) - 加速镜像
           </a>
         </TabItem>
-        <TabItem value="netdisk" label="网盘下载">
-          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+        <TabItem value=\"netdisk\" label=\"网盘下载\">
+          <a href=\"${{ env.FCL_NETDISK }}\" className=\"download-link\">
             夸克网盘下载 - ARM64版
           </a>
         </TabItem>
@@ -187,22 +186,22 @@ export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
     </div>
   </TabItem>
   
-  <TabItem value="x86" label="x86版">
+  <TabItem value=\"x86\" label=\"x86版\">
     <p>适用于搭载Intel或AMD处理器的设备</p>
-    <div className="download-options">
+    <div className=\"download-options\">
       <Tabs>
-        <TabItem value="github" label="GitHub下载">
-          <a href="${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk" className="download-link">
+        <TabItem value=\"github\" label=\"GitHub下载\">
+          <a href=\"${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk\" className=\"download-link\">
             下载APK (x86版)
           </a>
         </TabItem>
-        <TabItem value="mirror" label="国内镜像">
-          <a href="https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk" className="download-link">
+        <TabItem value=\"mirror\" label=\"国内镜像\">
+          <a href=\"https://ghproxy.com/${GITHUB_BASE}/${FILE_PREFIX}-${{ env.FCL_VERSION }}-x86.apk\" className=\"download-link\">
             下载APK (x86版) - 加速镜像
           </a>
         </TabItem>
-        <TabItem value="netdisk" label="网盘下载">
-          <a href="${{ env.FCL_NETDISK }}" className="download-link">
+        <TabItem value=\"netdisk\" label=\"网盘下载\">
+          <a href=\"${{ env.FCL_NETDISK }}\" className=\"download-link\">
             夸克网盘下载 - x86版
           </a>
         </TabItem>
@@ -213,20 +212,16 @@ export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
 
 ## 版本更新日志
 
-<div className="changelog">
+<div className=\"changelog\">
   <Tabs>
-    <TabItem value="zh" label="中文" default>
-      <pre className="changelog-content">
-        {String(\`${{ env.CHANGELOG_ZH }}\`).split('\\\\n').map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
+    <TabItem value=\"zh\" label=\"中文\" default>
+      <pre className=\"changelog-content\">
+        ${{ env.CHANGELOG_ZH }}
       </pre>
     </TabItem>
-    <TabItem value="en" label="English">
-      <pre className="changelog-content">
-        {String(\`${{ env.CHANGELOG_EN }}\`).split('\\\\n').map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
+    <TabItem value=\"en\" label=\"English\">
+      <pre className=\"changelog-content\">
+        ${{ env.CHANGELOG_EN }}
       </pre>
     </TabItem>
   </Tabs>
@@ -242,13 +237,13 @@ export const NETDISK_URL = "${{ env.FCL_NETDISK }}";
 ### 历史版本
 需要历史版本？请访问：
 - [GitHub发布页](https://github.com/FCL-Team/FoldCraftLauncher/releases)
-- [国内加速镜像](https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases)
-EOF
+- [国内加速镜像](https://ghproxy.com/https://github.com/FCL-Team/FoldCraftLauncher/releases)"
           
-          # 创建CSS文件来自定义下载页面样式
-          mkdir -p src/css
-          cat > src/css/download.css << 'EOF'
-/* 下载页面样式 */
+          # 创建下载页面
+          echo "$PAGE_CONTENT" > src/pages/download.mdx
+          
+          # CSS内容
+          CSS_CONTENT="/* 下载页面样式 */
 .download-header {
   display: flex;
   flex-direction: column;
@@ -350,9 +345,12 @@ EOF
   .version-info {
     margin-bottom: 0;
   }
-}
-EOF
-
+}"
+          
+          # 创建CSS文件来自定义下载页面样式
+          mkdir -p src/css
+          echo "$CSS_CONTENT" > src/css/download.css
+          
           # 更新自定义CSS导入
           if ! grep -q "download.css" src/css/custom.css; then
             echo "/* 导入下载页面样式 */" >> src/css/custom.css
