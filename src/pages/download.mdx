@@ -7,11 +7,12 @@ hide_table_of_contents: false
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-export const FCL_VERSION = "1.2.1.2";
+export const FCL_VERSION = "1.2.1.3";
 export const FCL_DATE = "2025.03.11";
-export const FCL_CODE = "1212";
+export const FCL_CODE = "1213";
 export const FILE_PREFIX = "FCL-release";
-export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
+export const QUARK_NETDISK_URL = "https://pan.quark.cn/s/7674f8f557da";
+export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
 
 # 下载 Fold Craft Launcher
 
@@ -25,8 +26,8 @@ export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
     <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-button">
       下载通用版
     </a>
-    <a href={NETDISK_URL} className="download-button download-button-alt">
-      网盘下载
+    <a href={QUARK_NETDISK_URL} className="download-button download-button-alt">
+      夸克网盘
     </a>
   </div>
 </div>
@@ -51,8 +52,11 @@ export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href={NETDISK_URL} className="download-link">
+          <a href={QUARK_NETDISK_URL} className="download-link">
             夸克网盘下载 - 通用版
+          </a>
+          <a href={NETDISK_123_URL} className="download-link" style={{marginTop: '8px'}}>
+            123云盘下载 - 通用版
           </a>
         </TabItem>
       </Tabs>
@@ -74,8 +78,11 @@ export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href={NETDISK_URL} className="download-link">
+          <a href={QUARK_NETDISK_URL} className="download-link">
             夸克网盘下载 - ARM64版
+          </a>
+          <a href={NETDISK_123_URL} className="download-link" style={{marginTop: '8px'}}>
+            123云盘下载 - ARM64版
           </a>
         </TabItem>
       </Tabs>
@@ -97,8 +104,11 @@ export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href={NETDISK_URL} className="download-link">
+          <a href={QUARK_NETDISK_URL} className="download-link">
             夸克网盘下载 - x86版
+          </a>
+          <a href={NETDISK_123_URL} className="download-link" style={{marginTop: '8px'}}>
+            123云盘下载 - x86版
           </a>
         </TabItem>
       </Tabs>
@@ -113,14 +123,16 @@ export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
     <TabItem value="zh" label="中文" default>
       <pre className="changelog-content">
         （若启动器内下载缓慢请使用网盘下载,64位的请下载arm64，不知道该下哪个的请下载all）
-        1.修复某些设备和模拟器无法安装的问题
-        2.改进ModMenu的模组兼容性
-        3.修复搜索整合包问题
-        4.新增对Tauri脚本的支持
-        5.删除默认Java虚拟机配置
-        6.恢复Forge渲染器下的水反射
-        7.与Forge和OptiFine的兼容性改进
-        8.修复一些可能导致崩溃的错误
+        0.修复Java自动选择Java8时无法启动的Bug
+        1.修复下载界面刷新图标错误显示的Bug
+        2.修复新版本DH修改了SQLite导致崩溃的Bug
+        3.更新Cacio17支持Java25
+        4.修复开启强制大核后无法正确获取核心数的Bug
+        5.修复NTE/ANTE模组崩溃的Bug
+        6.允许用户导入Java
+        7.调整部分UI显示效果
+        8.修复部分设备上鼠标无法正常使用的Bug
+        9.暂时移除手柄支持
       </pre>
     </TabItem>
     <TabItem value="en" label="English">
