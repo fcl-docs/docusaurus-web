@@ -1,0 +1,11 @@
+{
+  "label": "崩溃问题修复",
+  "position": 4,
+  "link": {
+    "type": "doc",
+    "id": "crash/troubleshooting"
+  },
+  "customProps": {
+    "description": "常见崩溃问题的诊断和修复指南"
+  }
+} 

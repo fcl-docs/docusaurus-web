@@ -1,0 +1,66 @@
+---
+id: cc
+title: 触控控制器
+sidebar_label: 触控控制器
+---
+
+# 触控控制器设置
+
+FCL启动器提供了多种触控控制器选项，让您可以在移动设备上轻松控制游戏。
+
+## 基本设置
+
+触控控制器可以通过游戏内设置进行自定义，您可以调整按钮位置、大小和透明度。
+
+<div style={{padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '5px', marginBottom: '20px'}}>
+  <p style={{fontWeight: 'bold', color: '#333'}}>提示：</p>
+  <p>长按按钮可以进入编辑模式，拖动按钮到您喜欢的位置。</p>
+</div>
+
+## 常见问题
+
+### 按钮无法响应
+
+如果触控按钮没有响应，请尝试以下解决方案：
+
+1. 确保您启用了"触控控制"选项
+2. 检查按钮是否被设置为不可见（透明度为0）
+3. 重启游戏并尝试重新加载控制器布局
+
+### 自定义布局
+
+您可以创建并保存多个控制器布局：
+
+<div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px'}}>
+  <div style={{backgroundColor: '#e6f7ff', padding: '8px', borderRadius: '4px'}}>
+    游戏设置 → 控制器 → 保存布局
+  </div>
+  <div style={{backgroundColor: '#e6f7ff', padding: '8px', borderRadius: '4px'}}>
+    游戏设置 → 控制器 → 加载布局
+  </div>
+</div>
+
+## 高级选项
+
+对于高级用户，可以通过编辑配置文件直接调整控制器设置：
+
+```json
+{
+  "controller": {
+    "type": "touch",
+    "sensitivity": 0.8,
+    "buttons": [
+      {
+        "id": "jump",
+        "x": 120,
+        "y": 300,
+        "size": 40,
+        "opacity": 0.7
+      },
+      // 其他按钮配置...
+    ]
+  }
+}
+```
+
+请记住在修改配置文件后重启游戏以应用更改。 

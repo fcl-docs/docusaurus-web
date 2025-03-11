@@ -7,9 +7,11 @@ hide_table_of_contents: false
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-export const FCL_VERSION = "1.2.1.1";
-export const FCL_DATE = "2025.03.06";
+export const FCL_VERSION = "1.2.1.2";
+export const FCL_DATE = "2025.03.11";
+export const FCL_CODE = "1212";
 export const FILE_PREFIX = "FCL-release";
+export const NETDISK_URL = "https://pan.quark.cn/s/7d263374816d";
 
 # 下载 Fold Craft Launcher
 
@@ -17,12 +19,13 @@ export const FILE_PREFIX = "FCL-release";
   <div className="version-info">
     <h2>最新版本: {FCL_VERSION}</h2>
     <p>发布日期: {FCL_DATE}</p>
+    <p>版本代码: {FCL_CODE}</p>
   </div>
   <div className="download-button-container">
     <a href={`https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-button">
       下载通用版
     </a>
-    <a href="https://www.123pan.com/s/zcTSVv-sGFO3" className="download-button download-button-alt">
+    <a href={NETDISK_URL} className="download-button download-button-alt">
       网盘下载
     </a>
   </div>
@@ -33,9 +36,6 @@ export const FILE_PREFIX = "FCL-release";
 请根据您的设备选择合适的版本：
 
 <Tabs groupId="device-architecture">
-
-
-
   <TabItem value="all" label="通用版" default>
     <p>适用于大多数设备，包含所有架构支持</p>
     <div className="download-options">
@@ -46,13 +46,13 @@ export const FILE_PREFIX = "FCL-release";
           </a>
         </TabItem>
         <TabItem value="mirror" label="国内镜像">
-          <a href={`https://ghproxy.net/github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-link">
+          <a href={`https://ghproxy.net/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-all.apk`} className="download-link">
             下载APK (通用版) - 加速镜像
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href="https://www.123pan.com/s/zcTSVv-sGFO3" className="download-link">
-            网盘下载 - 通用版
+          <a href={NETDISK_URL} className="download-link">
+            夸克网盘下载 - 通用版
           </a>
         </TabItem>
       </Tabs>
@@ -74,8 +74,8 @@ export const FILE_PREFIX = "FCL-release";
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href="https://www.123pan.com/s/zcTSVv-sGFO3" className="download-link">
-            网盘下载 - ARM64版
+          <a href={NETDISK_URL} className="download-link">
+            夸克网盘下载 - ARM64版
           </a>
         </TabItem>
       </Tabs>
@@ -97,8 +97,8 @@ export const FILE_PREFIX = "FCL-release";
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
-          <a href="https://www.123pan.com/s/zcTSVv-sGFO3" className="download-link">
-            网盘下载 - x86版
+          <a href={NETDISK_URL} className="download-link">
+            夸克网盘下载 - x86版
           </a>
         </TabItem>
       </Tabs>
@@ -112,18 +112,20 @@ export const FILE_PREFIX = "FCL-release";
   <Tabs>
     <TabItem value="zh" label="中文" default>
       <pre className="changelog-content">
-        - 修复了游戏启动问题
-        - 优化UI界面
-        - 添加了新的自定义主题选项
-        - 改进了Java版本选择器
+        （若启动器内下载缓慢请使用网盘下载,64位的请下载arm64，不知道该下哪个的请下载all）
+        1.修复某些设备和模拟器无法安装的问题
+        2.改进ModMenu的模组兼容性
+        3.修复搜索整合包问题
+        4.新增对Tauri脚本的支持
+        5.删除默认Java虚拟机配置
+        6.恢复Forge渲染器下的水反射
+        7.与Forge和OptiFine的兼容性改进
+        8.修复一些可能导致崩溃的错误
       </pre>
     </TabItem>
     <TabItem value="en" label="English">
       <pre className="changelog-content">
-        - Fixed game launching issues
-        - Optimized UI interface
-        - Added new custom theme options
-        - Improved Java version selector
+        See Github for details.
       </pre>
     </TabItem>
   </Tabs>

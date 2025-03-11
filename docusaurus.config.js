@@ -28,8 +28,8 @@ const config = {
   // 有用的元数据如 html 语言。例如，如果你的站点是中文的，你
   // 可能希望将 "en" 替换为 "zh-Hans"。
   i18n: {
-    defaultLocale: 'zh-Hans', // 默认区域设置
-    locales: ['en', 'zh-Hans'], // 支持的区域设置列表
+    defaultLocale: 'zh-CN', // 默认区域设置
+    locales: ['en', 'zh-CN'], // 支持的区域设置列表
     path: 'i18n', // 区域设置文件的路径
     localeConfigs: {
       en: {
@@ -39,7 +39,7 @@ const config = {
         calendar: 'gregory', // 使用的历法
         path: 'en', // 英文内容路径
       },
-      'zh-Hans': {
+      'zh-CN': {
         label: '简体中文', // 简体中文标签
         direction: 'ltr', // 文本方向：从左到右
         htmlLang: 'zh-CN', // HTML 语言属性
