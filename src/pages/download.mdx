@@ -13,6 +13,8 @@ export const FCL_CODE = "1213";
 export const FILE_PREFIX = "FCL-release";
 export const QUARK_NETDISK_URL = "https://pan.quark.cn/s/7674f8f557da";
 export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
+export const ZL_URL = "https://fcl.ningmo.fun/fcl/FCL-v";
+export const CF_URL = "https://cf.ningmo.fun/fcl/FCL-v";
 
 # 下载 Fold Craft Launcher
 
@@ -51,6 +53,16 @@ export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
             下载APK (通用版) - 加速镜像
           </a>
         </TabItem>
+        <TabItem value="cf" label="CF下载">
+          <a href={`${CF_URL}${FCL_VERSION}-all.apk`} className="download-link">
+            下载APK (通用版) - CloudFlare
+          </a>
+        </TabItem>
+        <TabItem value="zl" label="直连下载">
+          <a href={`${ZL_URL}${FCL_VERSION}-all.apk`} className="download-link">
+            下载APK (通用版) - 直连下载
+          </a>
+        </TabItem>
         <TabItem value="netdisk" label="网盘下载">
           <a href={QUARK_NETDISK_URL} className="download-link">
             夸克网盘下载 - 通用版
@@ -72,6 +84,16 @@ export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
             下载APK (ARM64版)
           </a>
         </TabItem>
+        <TabItem value="zl" label="直连下载">
+          <a href={`${ZL_URL}${FCL_VERSION}-arm64-v8a.apk`} className="download-link">
+            下载APK (ARM64版) - 直连下载
+          </a>
+        </TabItem>
+        <TabItem value="cf" label="CF下载">
+          <a href={`${CF_URL}${FCL_VERSION}-arm64-v8a.apk`} className="download-link">
+            下载APK (ARM64版) - CloudFlare
+          </a>
+        </TabItem>  
         <TabItem value="mirror" label="国内镜像">
           <a href={`https://ghproxy.net/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-arm64-v8a.apk`} className="download-link">
             下载APK (ARM64版) - 加速镜像
@@ -101,6 +123,16 @@ export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
         <TabItem value="mirror" label="国内镜像">
           <a href={`https://ghproxy.net/https://github.com/FCL-Team/FoldCraftLauncher/releases/download/${FCL_VERSION}/${FILE_PREFIX}-${FCL_VERSION}-x86.apk`} className="download-link">
             下载APK (x86版) - 加速镜像
+          </a>
+        </TabItem>
+        <TabItem value="cf" label="CF下载">
+          <a href={`${CF_URL}${FCL_VERSION}-x86.apk`} className="download-link">
+            下载APK (x86版) - CloudFlare
+          </a>
+        </TabItem>
+        <TabItem value="zl" label="直连下载">
+          <a href={`${ZL_URL}${FCL_VERSION}-x86.apk`} className="download-link">
+            下载APK (x86版) - 直连下载
           </a>
         </TabItem>
         <TabItem value="netdisk" label="网盘下载">
@@ -147,10 +179,8 @@ export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
 
 ### MobileGlues渲染器
 优化的渲染器，提供更好的游戏性能
-- [GitHub下载](https://github.com/Swung0x48/MobileGlues-release/releases/latest)
-- [国内加速镜像](https://ghproxy.net/https://github.com/Swung0x48/MobileGlues-release/releases/latest)
+- [GitHub下载](https://github.com/Swung0x48/MobileGlues-release/releases)
 
 ### 历史版本
 需要历史版本？请访问：
 - [GitHub发布页](https://github.com/FCL-Team/FoldCraftLauncher/releases)
-- [国内加速镜像](https://ghproxy.net/https://github.com/FCL-Team/FoldCraftLauncher/releases)

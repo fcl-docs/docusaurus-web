@@ -11,11 +11,11 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Fold Craft Launcher', // 网站标题
-  tagline: '在安卓设备上运行minecraft JAVA版的一种方式。', // 网站标语
+  tagline: '在安卓设备上轻松运行minecraft JAVA版。', // 网站标语
   favicon: 'img/favicon.ico', // 网站图标
 
   // 在这里设置你网站的生产环境URL
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://fcl.ningmo.fun',
   // 设置你的站点服务的基本路径/<baseUrl>/
   // 对于GitHub Pages部署，通常是 '/<projectName>/'
   baseUrl: '/',
@@ -59,7 +59,7 @@ const config = {
           // 请将此更改为你的仓库地址。
           // 删除此项以移除"编辑此页"链接。
           editUrl:
-            'https://github.com/fcl-docs/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/fcl-docs/docusaurus-fcl/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true, // 显示阅读时间
@@ -70,7 +70,7 @@ const config = {
           // 请将此更改为你的仓库地址。
           // 删除此项以移除"编辑此页"链接。
           editUrl:
-            'https://github.com/fcl-docs/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/fcl-docs/docusaurus-web/tree/main/packages/create-docusaurus/templates/shared/',
           // 用于强制执行博客最佳实践的有用选项
           onInlineTags: 'warn', // 内联标签警告
           onInlineAuthors: 'warn', // 内联作者警告
@@ -105,7 +105,7 @@ const config = {
             position: 'left', // 左侧位置
             label: '文档', // 标签
           },
-          {to: '/blog', label: '更新日志', position: 'left'}, // 博客链接
+          {to: '/blog', label: '动态', position: 'left'}, // 博客链接
           {to:'/download',label:'下载'},
           {
             href: 'https://github.com/fcl-team/foldcraftlauncher',
@@ -131,16 +131,16 @@ const config = {
             items: [
               {
                 label: '爱发电（QQ群）', // Stack Overflow链接标签
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus', // 链接地址
+                href: 'https://afdian.com/a/tungs', // 链接地址
               },
               {
                 label: 'Discord', // Discord链接标签
-                href: 'https://discordapp.com/invite/docusaurus', // 链接地址
+                href: 'https://discord.gg/ffhvuXTwyV', // 链接地址
               },
             ],
           },
           {
-            title: '更多', // 分类标题
+            title: '相关链接', // 分类标题
             items: [
               {
                 label: 'MobileGlues渲染器', // 链接标签
