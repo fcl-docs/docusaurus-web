@@ -7,11 +7,11 @@ hide_table_of_contents: false
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-export const FCL_VERSION = "1.2.1.3";
-export const FCL_DATE = "2025.03.11";
-export const FCL_CODE = "1213";
+export const FCL_VERSION = "1.2.1.4";
+export const FCL_DATE = "2025.03.15";
+export const FCL_CODE = "1214";
 export const FILE_PREFIX = "FCL-release";
-export const QUARK_NETDISK_URL = "https://pan.quark.cn/s/7674f8f557da";
+export const QUARK_NETDISK_URL = "https://pan.quark.cn/s/584f4f55cb37";
 export const NETDISK_123_URL = "https://www.123pan.com/s/zcTSVv-sGFO3";
 export const ZL_URL = "https://fcl.ningmo.fun/fcl/FCL-v";
 export const CF_URL = "https://cf.ningmo.fun/fcl/FCL-v";
@@ -155,16 +155,15 @@ export const CF_URL = "https://cf.ningmo.fun/fcl/FCL-v";
     <TabItem value="zh" label="中文" default>
       <pre className="changelog-content">
         （若启动器内下载缓慢请使用网盘下载,64位的请下载arm64，不知道该下哪个的请下载all）
-        0.修复Java自动选择Java8时无法启动的Bug
-        1.修复下载界面刷新图标错误显示的Bug
-        2.修复新版本DH修改了SQLite导致崩溃的Bug
-        3.更新Cacio17支持Java25
-        4.修复开启强制大核后无法正确获取核心数的Bug
-        5.修复NTE/ANTE模组崩溃的Bug
-        6.允许用户导入Java
-        7.调整部分UI显示效果
-        8.修复部分设备上鼠标无法正常使用的Bug
-        9.暂时移除手柄支持
+        1.更新主界面右侧UI以及调整一些页面的背景为纯透明
+        2.Java列表根据版本自动排序
+        3.修复选择与启动器自带的Java相同时无法生效的Bug
+        4.调整部分UI颜色使其更加美观
+        5.在启动器设置的主题色内添加自动提取背景色的功能
+        6.修复执行Jar崩溃的Bug
+        7.修复版本Json缺失Java信息(可能存在于某些1.6.4 Mite)导致的无法启动的Bug
+        8.启动器内更新改为下载特定架构安装包而不是全架构包
+        9.修复少量Bug
       </pre>
     </TabItem>
     <TabItem value="en" label="English">
