@@ -64,7 +64,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 225370131,
-      "download_count": 2997,
+      "download_count": 8868,
       "created_at": "2025-03-20T06:28:12Z",
       "updated_at": "2025-03-20T06:28:17Z",
       "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.5/FCL-release-1.2.1.5-all.apk"
@@ -99,7 +99,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 119823972,
-      "download_count": 2602,
+      "download_count": 5353,
       "created_at": "2025-03-20T06:28:15Z",
       "updated_at": "2025-03-20T06:28:18Z",
       "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.5/FCL-release-1.2.1.5-arm64-v8a.apk"
@@ -134,7 +134,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 116765953,
-      "download_count": 98,
+      "download_count": 212,
       "created_at": "2025-03-20T06:28:07Z",
       "updated_at": "2025-03-20T06:28:10Z",
       "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.5/FCL-release-1.2.1.5-armeabi-v7a.apk"
@@ -169,7 +169,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 110405499,
-      "download_count": 23,
+      "download_count": 59,
       "created_at": "2025-03-20T06:28:10Z",
       "updated_at": "2025-03-20T06:28:13Z",
       "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.5/FCL-release-1.2.1.5-x86.apk"
@@ -204,7 +204,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 124819218,
-      "download_count": 31,
+      "download_count": 68,
       "created_at": "2025-03-20T06:27:50Z",
       "updated_at": "2025-03-20T06:27:54Z",
       "browser_download_url": "https://github.com/FCL-Team/FoldCraftLauncher/releases/download/1.2.1.5/FCL-release-1.2.1.5-x86_64.apk"
@@ -215,8 +215,8 @@
   "body": "",
   "reactions": {
     "url": "https://api.github.com/repos/FCL-Team/FoldCraftLauncher/releases/207073219/reactions",
-    "total_count": 14,
-    "+1": 4,
+    "total_count": 17,
+    "+1": 7,
     "-1": 0,
     "laugh": 1,
     "hooray": 4,
